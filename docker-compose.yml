@@ -1,0 +1,29 @@
+version: '2.3'
+services:
+  main:
+    build: .
+    volumes:
+      # Data
+      - ./data:/data:rw
+      - ./data/inria_holidays:/data/inria_holidays:ro
+      - /media/aiden/FastData/Datasets/Human3.6M:/data/h36m
+      - /media/aiden/FastData/Datasets/MPII_Human_Pose:/data/mpii:ro
+      - /media/aiden/FastData/Datasets/PASCAL-VOC/VOCdevkit/VOC2012:/data/pascal_voc:ro
+      # Miscellaneous
+      - /etc/localtime:/etc/localtime:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    environment:
+      - PYTHONIOENCODING=utf_8
+      - DISPLAY=$DISPLAY
+    init: true
+    network_mode: host
+    runtime: nvidia
+  tensorboard:
+    build: .
+    volumes:
+      - ./data/experiments:/data/experiments:ro
+      - /etc/localtime:/etc/localtime:ro
+    init: true
+    network_mode: host
+    runtime: nvidia
+    entrypoint: tensorboard

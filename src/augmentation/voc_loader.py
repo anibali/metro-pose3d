@@ -1,6 +1,7 @@
 import functools
 import glob
 import xml
+import os.path
 
 import PIL
 import cv2
@@ -17,6 +18,8 @@ import util
 def load_occluders():
     image_mask_pairs = []
     pascal_root = f'{paths.DATA_ROOT}/pascal_voc'
+    if not os.path.isdir(pascal_root):
+        raise FileNotFoundError(pascal_root)
     image_paths = []
     for annotation_path in glob.glob(f'{pascal_root}/Annotations/*.xml'):
         xml_root = xml.etree.ElementTree.parse(annotation_path).getroot()

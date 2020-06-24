@@ -9,6 +9,7 @@ import boxlib
 import cameralib
 import improc
 import tfu
+import paths
 import util
 from init import FLAGS
 from tfu import TRAIN
@@ -82,7 +83,7 @@ def load_and_transform3d(ex, joint_info, learning_phase, rng=None):
 
     imcoords = cam.world_to_image(metric_world_coords)
 
-    image_path = util.ensure_absolute_path(ex.image_path)
+    image_path = util.ensure_absolute_path(f'{paths.DATA_ROOT}/{ex.image_path}')
     origsize_im = improc.imread_jpeg(image_path)
 
     if ('3dhp' in ex.image_path and

@@ -123,7 +123,7 @@ def make_efficient_example(ex, further_expansion_factor=1, further_scale_up=1, d
     new_im_path = f'{paths.DATA_ROOT}/{new_im_relpath}'
     if not (util.is_file_newer(new_im_path, "2019-11-14T23:33:14") and
             improc.is_image_readable(new_im_path)):
-        im = improc.imread_jpeg(ex.image_path)
+        im = improc.imread_jpeg(f'{paths.DATA_ROOT}/{ex.image_path}')
         dst_shape = improc.rounded_int_tuple(scale_factor * expanded_bbox[[3, 2]])
         new_im = cameralib.reproject_image(im, ex.camera, new_camera, dst_shape)
         util.ensure_path_exists(new_im_path)
@@ -187,8 +187,7 @@ def get_examples(
         coords_new_shape = [coords_raw.shape[0], -1, 3]
         return coords_raw_all.shape[0], coords_raw.reshape(coords_new_shape)[:, i_relevant_joints]
 
-    pose_folder = f'{h36m_root}/S{i_subject}/MyPoseFeatures'
-    coord_path = f'{pose_folder}/D3_Positions/{activity_name}.cdf'
+    coord_path = f'{h36m_root}/S{i_subject}/Poses_D3_Positions/{activity_name}.cdf'
     n_total_frames, world_coords = load_coords(coord_path)
 
     if correct_S9:
